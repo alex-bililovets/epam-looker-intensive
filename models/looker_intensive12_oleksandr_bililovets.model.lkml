@@ -45,7 +45,7 @@ explore: f_lineitems {
     relationship: many_to_one
   }
   join: d_customer {
-    view_label: "Dates"
+    view_label: "Customer"
     type: left_outer
     sql_on: ${f_lineitems.l_orderdatekey}=${d_customer.c_custkey} ;;
     relationship: many_to_one

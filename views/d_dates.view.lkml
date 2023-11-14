@@ -1,6 +1,7 @@
 view: d_dates {
   sql_table_name: "DATA_MART"."D_DATES" ;;
 
+#Dimensions
   dimension_group: date_val {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
@@ -36,6 +37,8 @@ view: d_dates {
     type: number
     sql: ${TABLE}."YEAR" ;;
   }
+
+#Measures
   measure: count {
     type: count
     drill_fields: [month_name]
