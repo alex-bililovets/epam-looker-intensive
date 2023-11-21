@@ -21,7 +21,6 @@ view: d_supplier {
       url: "https://www.google.com/search?q={{ value | url_encode }}"
       icon_url: "https://www.google.com/favicon.ico"
     }
-    #html:<a href="/looks/463?Supplier={{ value | url_encode }}">{{ value | url_encode }}</a> ;;
   }
   dimension: s_nation {
     label: "Supplier Nation"
