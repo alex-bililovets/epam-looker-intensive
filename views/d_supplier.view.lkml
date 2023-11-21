@@ -16,9 +16,15 @@ view: d_supplier {
     label: "Supplier Name"
     type: string
     sql: ${TABLE}."S_NAME" ;;
+    link: {
+      label: "Search supplier in Google"
+      url: "https://www.google.com/search?q={{ value | url_encode }}"
+      icon_url: "https://www.google.com/favicon.ico"
+    }
+    #html:<a href="/looks/463?Supplier={{ value | url_encode }}">{{ value | url_encode }}</a> ;;
   }
   dimension: s_nation {
-    label: "Supplier nation"
+    label: "Supplier Nation"
     type: string
     sql: ${TABLE}."S_NATION" ;;
   }
@@ -37,7 +43,7 @@ view: d_supplier {
     type: number
     sql: ${TABLE}."S_SUPPKEY" ;;
   }
-  dimension: cohort_supplier_by_accbalance {
+  dimension: s_by_accbalance_cohort {
     label: "Suppliers by Account Balance"
     description: "Cohort of suppliers according to Account Balance: <= 0, 1—3000, 3001—5000, 5001—7000, 7000 <"
     type: tier
@@ -48,6 +54,7 @@ view: d_supplier {
 
 #Measures
   measure: count {
+    label: "Suppliers Count"
     type: count
     drill_fields: [s_name]
   }

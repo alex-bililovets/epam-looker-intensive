@@ -165,6 +165,7 @@ view: f_lineitems {
     filters: [l_orderstatus: "F"]
     sql: ${l_totalprice} ;;
     value_format_name: usd
+    drill_fields:[part_revenue_details_by_supplier*]
   }
   measure: total_cost {
     label: "Total Cost"
@@ -179,6 +180,7 @@ view: f_lineitems {
     type: number
     sql: ${total_gross_revenue} - ${total_cost} ;;
     value_format_name: usd
+    drill_fields:[accbalance_details_by_supplier*]
   }
   measure: gross_margin_percentage {
     label: "Gross Margin Percentage"
@@ -216,5 +218,13 @@ view: f_lineitems {
     description: "Total Sale Price / Total Number of Customers"
     sql: ${total_sale_price} / NULLIF(${total_customers_count},0) ;;
     value_format_name: usd
+  }
+
+#Drill-Down Sets
+  set: accbalance_details_by_supplier {
+    fields: [d_supplier.s_name,d_supplier.s_region,d_supplier.s_acctbal,d_supplier.s_by_accbalance_cohort]
+  }
+  set: part_revenue_details_by_supplier {
+    fields: [d_part.p_name,total_gross_revenue,total_sale_price,total_gross_margin_amount]
   }
 }

@@ -36,7 +36,7 @@ explore: f_lineitems {
     view_label: "Dates"
     type: left_outer
     sql_on: ${f_lineitems.l_orderdatekey}=${d_dates.datekey} ;;
-    relationship: many_to_many
+    relationship: many_to_one
   }
   join: d_part {
     view_label: "Part"
