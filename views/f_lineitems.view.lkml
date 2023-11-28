@@ -1,8 +1,46 @@
 view: f_lineitems {
   sql_table_name: "DATA_MART"."F_LINEITEMS" ;;
 
+#Filter Parameters
+  parameter: range_selector {
+    type: unquoted
+    default_value: "year"
+    allowed_value: {
+      label: "Month"
+      value: "month"
+    }
+    allowed_value: {
+      label: "Quarter"
+      value: "quarter"
+    }
+    allowed_value: {
+      label: "Year"
+      value: "year"
+    }
+  }
+  dimension: dynamic_range {
+    label_from_parameter: range_selector
+    sql:
+      {% if range_selector._parameter_value == "quarter" %} ${d_dates.quarter}
+      {% elsif range_selector._parameter_value == "year" %} ${d_dates.year}
+      {% elsif range_selector._parameter_value == "month" %} ${d_dates.month_num}
+      {% endif %}
+      ;;
+  }
+  dimension: dynamic_range_title {
+    label: "Chart Title"
+    type: string
+    sql:
+     {% if range_selector._parameter_value == "quarter" %} 'Quarter'
+      {% elsif range_selector._parameter_value == "year" %} 'Year'
+      {% elsif range_selector._parameter_value == "month" %} 'Month'
+      {% endif %}
+      ;;
+  }
+
 #Dimensions
   dimension: l_availqty {
+    label: "Avaliable Quantity"
     type: number
     sql: ${TABLE}."L_AVAILQTY" ;;
   }
@@ -219,6 +257,22 @@ view: f_lineitems {
     sql: ${total_sale_price} / NULLIF(${total_customers_count},0) ;;
     value_format_name: usd
   }
+  measure:  return_rate_highlighter {
+    label: "Return Rate Highlighter"
+    description: "The lower return rate we have - means that we’re performing better"
+    type: number
+    value_format_name: percent_2
+    sql:${items_return_rate} ;;
+    html:
+        {% if value >= 0.5 %}
+          <font color="red">{{ rendered_value }}</font>
+        {% elsif value >= 0.3  and value < 0.5%}
+          <font color ="orange">{{ rendered_value }}</fontn>
+        {% else %}
+          <font color ="green">{{ rendered_value }}</font>
+        {% endif %} ;;
+  }
+
 
 #Drill-Down Sets
   set: accbalance_details_by_supplier {

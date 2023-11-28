@@ -36,6 +36,10 @@ view: d_customer {
     label: "Customer Region"
     type: string
     sql: ${TABLE}."C_REGION" ;;
+    link: {
+      label: "Go to Target Dashboard"
+      url: "https://epam.cloud.looker.com/dashboards/287?Customer+Region={{rendered_value}}"
+    }
   }
 
 #Measures
